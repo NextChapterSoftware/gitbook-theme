@@ -17,6 +17,7 @@ function insertAt(parent, selector, index, element) {
     if (index < 0) {
         index = Math.max(0, lastIndex + 1 + index);
     }
+    console.log('insert at', selector);
     parent.append(element);
 
     if (index < lastIndex) {
@@ -37,6 +38,7 @@ function createDropdownMenu(dropdown) {
     });
 
     if (typeof dropdown == 'string') {
+        console.log("create dropdown menu", dropdown);
         $menu.append(dropdown);
     } else {
         var groups = dropdown.map(function(group) {
@@ -65,10 +67,12 @@ function createDropdownMenu(dropdown) {
                 });
                 $btn.click(btn.onClick);
 
+                console.log('group append button');
                 $group.append($btn);
             });
 
 
+            console.log('menu append group');
             $menu.append($group);
         });
 
@@ -150,6 +154,7 @@ function updateButton(opts) {
 
         // Add button to container
         $btn.addClass('toggle-dropdown');
+        console.log('container append button');
         $container.append($btn);
 
         // Create inner menu
@@ -158,6 +163,7 @@ function updateButton(opts) {
         // Menu position
         $menu.addClass('dropdown-'+(opts.position == 'right'? 'left' : 'right'));
 
+        console.log('container append menu');
         $container.append($menu);
         $result = $container;
     } else {
