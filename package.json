@@ -2,7 +2,7 @@
   "name": "gitbook-plugin-theme-unblocked",
   "description": "Default theme for GitBook",
   "main": "./index.js",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "engines": {
     "gitbook": ">=3.0.0"
   },

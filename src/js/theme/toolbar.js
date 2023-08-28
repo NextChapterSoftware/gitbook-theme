@@ -180,7 +180,7 @@ function updateButton(opts) {
 // Update all buttons
 function updateAllButtons() {
     $('.js-toolbar-action').remove();
-    // buttons.forEach(updateButton);
+    buttons.forEach(updateButton);
 }
 
 // Remove a button provided its id
@@ -203,7 +203,7 @@ function removeButtons(ids) {
 
 // When page changed, reset buttons
 gitbook.events.on('page.change', function() {
-    updateAllButtons();
+    // updateAllButtons();
 });
 
 module.exports = {
