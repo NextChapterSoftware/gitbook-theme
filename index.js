@@ -1,7 +1,8 @@
 module.exports = {
     hooks: {
-        config: function (config) {
-            config.styles = config.styles || config.pluginsConfig["@honkit/honkit-plugin-theme"].styles;
+        config: function(config) {
+            config.styles = config.styles || config.pluginsConfig['theme-unblocked'].styles;
+
             return config;
         }
     }

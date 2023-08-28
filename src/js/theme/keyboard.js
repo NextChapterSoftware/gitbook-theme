@@ -1,27 +1,36 @@
-import * as navigation from "./navigation";
+var Mousetrap = require('mousetrap');
 
-function bindShortCuts(shortcuts, target = window) {
-    target.addEventListener(
-        "keydown",
-        (e) => {
-            if (!(e instanceof KeyboardEvent)) {
-                return;
-            }
-            const key = e.key;
-            if (key in shortcuts) {
-                shortcuts[key]();
-            }
-        },
-        {
-            passive: true
-        }
-    );
-}
+var navigation = require('./navigation');
+var sidebar    = require('./sidebar');
 
-// Bind keyboard shortcuts
-export function initKeyBoard() {
-    bindShortCuts({
-        ArrowRight: () => navigation.goNext(),
-        ArrowLeft: () => navigation.goPrev()
+// Bind a keyboard shortcuts
+function bindShortcut(keys, fn) {
+    Mousetrap.bind(keys, function(e) {
+        fn();
+        return false;
     });
 }
+
+
+// Bind keyboard shortcuts
+function init() {
+    // Next
+    bindShortcut(['right'], function(e) {
+        navigation.goNext();
+    });
+
+    // Prev
+    bindShortcut(['left'], function(e) {
+        navigation.goPrev();
+    });
+
+    // Toggle Summary
+    bindShortcut(['s'], function(e) {
+        sidebar.toggle();
+    });
+}
+
+module.exports = {
+    init: init,
+    bind: bindShortcut
+};

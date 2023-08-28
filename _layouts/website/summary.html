@@ -4,11 +4,11 @@
             {% if article.path and getPageByPath(article.path) %}
                 <a href="{{ article.path|resolveFile }}{{ article.anchor }}">
             {% elif article.url %}
-                <a href="{{ article.url }}" target="_blank" rel="noopener">
+                <a target="_blank" href="{{ article.url }}">
             {% else %}
                 <span>
             {% endif %}
-                    {% if article.level != "0" and config.pluginsConfig['theme-default'].showLevel %}
+                    {% if article.level != "0" and config.pluginsConfig['theme-unblocked'].showLevel %}
                         <b>{{ article.level }}.</b>
                     {% endif %}
                     {{ article.title }}
@@ -33,7 +33,7 @@
     {% for linkTitle, link in config.links.sidebar  %}
         {% set _divider = true %}
         <li>
-            <a href="{{ link }}" target="_blank" rel="noopener" class="custom-link">{{ linkTitle }}</a>
+            <a href="{{ link }}" target="_blank" class="custom-link">{{ linkTitle }}</a>
         </li>
     {% endfor %}
     {% endif %}
@@ -54,7 +54,7 @@
     <li class="divider"></li>
 
     <li>
-        <a href="https://github.com/honkit/honkit" target="_blank" rel="noopener" class="gitbook-link">
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
             {{ "GITBOOK_LINK"|t }}
         </a>
     </li>
