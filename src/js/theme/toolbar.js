@@ -13,15 +13,14 @@ function generateId() {
 
 // Insert a jquery element at a specific position
 function insertAt(parent, selector, index, element) {
-    var lastIndex = parent.children(selector).length;
+    var lastIndex = parent.querySelectorAll(selector).length;
     if (index < 0) {
         index = Math.max(0, lastIndex + 1 + index);
     }
-    console.log('insert at', selector);
-    parent.append(element);
+    parent.appendChild(element);
 
     if (index < lastIndex) {
-        parent.children(selector).eq(index).before(parent.children(selector).last());
+        parent.querySelectorAll(selector)[index].before(parent.querySelectorAll(selector)[lastIndex - 1]);
     }
 }
 
@@ -121,63 +120,60 @@ function createButton(opts) {
 
 // Update a button
 function updateButton(opts) {
-    var $result;
-    var $toolbar = $('.book-header');
-    var $title = $toolbar.find('h1');
+    var result;
+    var toolbar = document.querySelector('.book-header');
+    var title = toolbar.querySelector('h1');
 
     // Build class name
-    var positionClass = 'pull-'+opts.position;
+    var positionClass = 'pull-' + opts.position;
 
     // Create button
-    var $btn = $('<a>', {
-        'class': 'btn',
-        'text': opts.text? ' ' + opts.text : '',
-        'aria-label': opts.label,
-        'href': '#'
-    });
+    var btn = document.createElement('a');
+    btn.className = 'btn';
+    btn.textContent = opts.text ? ' ' + opts.text : '';
+    btn.setAttribute('aria-label', opts.label);
+    btn.setAttribute('href', '#');
 
     // Bind click
-    $btn.click(opts.onClick);
+    btn.addEventListener('click', opts.onClick);
 
     // Prepend icon
     if (opts.icon) {
-        $('<i>', {
-            'class': opts.icon
-        }).prependTo($btn);
+        var icon = document.createElement('i');
+        icon.className = opts.icon;
+        btn.insertBefore(icon, btn.firstChild);
     }
 
     // Prepare dropdown
     if (opts.dropdown) {
-        var $container = $('<div>', {
-            'class': 'dropdown '+positionClass+' '+opts.className
-        });
+        var container = document.createElement('div');
+        container.className = 'dropdown ' + positionClass + ' ' + opts.className;
 
         // Add button to container
-        $btn.addClass('toggle-dropdown');
+        btn.className += ' toggle-dropdown';
         console.log('container append button');
-        $container.append($btn);
+        container.appendChild(btn);
 
         // Create inner menu
-        var $menu = createDropdownMenu(opts.dropdown);
+        var menu = createDropdownMenu(opts.dropdown);
 
         // Menu position
-        $menu.addClass('dropdown-'+(opts.position == 'right'? 'left' : 'right'));
+        menu.className += ' dropdown-' + (opts.position == 'right' ? 'left' : 'right');
 
         console.log('container append menu');
-        $container.append($menu);
-        $result = $container;
+        container.appendChild(menu);
+        result = container;
     } else {
-        $btn.addClass(positionClass);
-        $btn.addClass(opts.className);
-        $result = $btn;
+        btn.className += ' ' + positionClass + ' ' + opts.className;
+        result = btn;
     }
 
-    $result.addClass('js-toolbar-action');
+    result.className += ' js-toolbar-action';
 
-    if ($.isNumeric(opts.index) && opts.index >= 0) {
-        insertAt($toolbar, '.btn, .dropdown, h1', opts.index, $result);
+    if (typeof opts.index === 'number' && opts.index >= 0) {
+        insertAt(toolbar, '.btn, .dropdown, h1', opts.index, result);
     } else {
-        $result.insertBefore($title);
+        toolbar.insertBefore(result, title);
     }
 }
 
@@ -206,9 +202,9 @@ function removeButtons(ids) {
 }
 
 // When page changed, reset buttons
-// gitbook.events.on('page.change', function() {
-//     updateAllButtons();
-// });
+gitbook.events.on('page.change', function() {
+    updateAllButtons();
+});
 
 module.exports = {
     createButton: createButton,
