@@ -457,6 +457,9 @@ function init() {
         cache: false
     });
 
+    var TEST = '123';
+    console.log('navigation init', TEST);
+
     // Recreate first page when the page loads.
     history.replaceState({ path: window.location.href }, '');
 
