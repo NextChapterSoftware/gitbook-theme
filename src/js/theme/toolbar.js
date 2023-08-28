@@ -206,9 +206,9 @@ function removeButtons(ids) {
 }
 
 // When page changed, reset buttons
-gitbook.events.on('page.change', function() {
-    updateAllButtons();
-});
+// gitbook.events.on('page.change', function() {
+//     updateAllButtons();
+// });
 
 module.exports = {
     createButton: createButton,
