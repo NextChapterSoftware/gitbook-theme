@@ -291,19 +291,35 @@ function handleNavigation(relativeUrl, push) {
                 // Update title
                 document.title = $pageHead.find('title').text();
 
-                // Reference to $('head');
-                var $head = $('head');
+        // Reference to $('head');
+                var headItems = document.getElementsByTagName('head');
+                if (headItems.length > 0) {
+                    var head = headItems[0];
 
-                // Update next & prev <link> tags
-                // Remove old
-                $head.find('link[rel=prev]').remove();
-                $head.find('link[rel=next]').remove();
+          // Update next & prev <link> tags
+          // Remove old
+                    var prevLinks = head.querySelectorAll('link[rel=prev]');
+                    for (var i = 0; i < prevLinks.length; i++) {
+                        head.removeChild(prevLinks[i]);
+                    }
 
-                // Add new next * prev <link> tags
-                $head.append($pageHead.find('link[rel=prev]'));
-                $head.append($pageHead.find('link[rel=next]'));
+                    var nextLinks = head.querySelectorAll('link[rel=next]');
+                    for (var i = 0; i < nextLinks.length; i++) {
+                        head.removeChild(nextLinks[i]);
+                    }
 
-                // Merge body
+          // Add new next & prev <link> tags
+                    var newPrevLinks = $pageHead[0].querySelectorAll('link[rel=prev]');
+                    for (var i = 0; i < newPrevLinks.length; i++) {
+                        head.appendChild(newPrevLinks[i]);
+                    }
+
+                    var newNextLinks = $pageHead[0].querySelectorAll('link[rel=next]');
+                    for (var i = 0; i < newNextLinks.length; i++) {
+                        head.appendChild(newNextLinks[i]);
+                    }
+                }
+
                 var bodyClass = $('.book').attr('class');
                 var scrollPosition = $('.book-summary').scrollTop();
 
