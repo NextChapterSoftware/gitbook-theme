@@ -1,6 +1,5 @@
 @import "base/all.less";
-@import "../../node_modules/font-awesome/less/font-awesome.less";
-@import "../../node_modules/preboot/less/preboot.less";
+@import "preboot.less";
 
 @import "website/variables.less";
 @import "website/languages.less";
@@ -11,16 +10,11 @@
 @import "website/page.less";
 @import "website/buttons.less";
 @import "website/markup.less";
-@import "website/navigation.less";
+@import "website/bottom-navigation.less";
 @import "website/search.less";
 
 * {
     .box-sizing(border-box);
-    -webkit-overflow-scrolling: touch;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-text-size-adjust: none;
-    -webkit-touch-callout: none;
-    -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -36,8 +30,6 @@ html {
 }
 
 body {
-    text-rendering: optimizeLegibility;
-    font-smoothing: antialiased;
     font-family: @font-family-base;
     font-size: @font-size-base;
     letter-spacing: .2px;

@@ -1,38 +1,11 @@
-var dropdown =   require('./dropdown');
-var keyboard =   require('./keyboard');
-var navigation = require('./navigation');
-var sidebar =    require('./sidebar');
-var toolbar =    require('./toolbar');
-
-var gitbook = window.gitbook;
-
+import { initKeyBoard } from "./keyboard";
+import { initSidebar, scrollIntoActiveSummaryItem } from "./sidebar.js";
 function init() {
-    // Init sidebar
-    sidebar.init();
-
-    // Init keyboard
-    keyboard.init();
-
-    // Bind dropdown
-    dropdown.init();
-
-    // Init navigation
-    navigation.init();
-
-    // Add action to toggle sidebar
-    toolbar.createButton({
-        index: 0,
-        icon: 'fa fa-align-justify',
-        onClick: function(e) {
-            e.preventDefault();
-            sidebar.toggle();
-        }
-    });
+    initKeyBoard();
+    initSidebar();
+    scrollIntoActiveSummaryItem();
 }
 
-gitbook.events.on('start', init);
-
-gitbook.keyboard = keyboard;
-gitbook.navigation = navigation;
-gitbook.sidebar = sidebar;
-gitbook.toolbar = toolbar;
+window.addEventListener("DOMContentLoaded", init, {
+    passive: true
+});

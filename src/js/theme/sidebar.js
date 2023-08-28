@@ -1,54 +1,40 @@
-var $ = require('jquery');
-
-var platform = require('./platform');
-
-var gitbook = window.gitbook;
-
-// Toggle sidebar with or withour animation
-function toggleSidebar(_state, animation) {
-    if (gitbook.state != null && isOpen() == _state) return;
+function toggleSidebar(animation) {
     if (animation == null) animation = true;
-
-    gitbook.state.$book.toggleClass('without-animation', !animation);
-    gitbook.state.$book.toggleClass('with-summary', _state);
-
-    gitbook.storage.set('sidebar', isOpen());
+    const book = document.querySelector(".book");
+    book.classList.toggle("without-animation", !animation);
+    book.classList.toggle("with-summary");
 }
 
 // Return true if sidebar is open
 function isOpen() {
-    return gitbook.state.$book.hasClass('with-summary');
+    const book = document.querySelector(".book");
+    return book.classList.add("with-summary");
 }
 
-// Prepare sidebar: state and toggle button
-function init() {
-    // Init last state if not mobile
-    if (!platform.isMobile()) {
-        toggleSidebar(gitbook.storage.get('sidebar', true), false);
+export function scrollIntoActiveSummaryItem() {
+    const activeSummaryItem = document.querySelector(".summary .active");
+    if (!activeSummaryItem) {
+        return;
     }
-
-    // Close sidebar after clicking a link on mobile
-    $(document).on('click', '.book-summary li.chapter a', function(e) {
-        if (platform.isMobile()) toggleSidebar(false, false);
+    activeSummaryItem.scrollIntoView({
+        block: "center",
+        inline: "nearest"
     });
 }
 
-// Filter summary with a list of path
-function filterSummary(paths) {
-    var $summary = $('.book-summary');
-
-    $summary.find('li').each(function() {
-        var path = $(this).data('path');
-        var st = paths == null || paths.indexOf(path) !== -1;
-
-        $(this).toggle(st);
-        if (st) $(this).parents('li').show();
-    });
+export function initSidebar() {
+    const toggleButton = document.querySelector("#honkit-sidebar-toggle-button");
+    if (!toggleButton) {
+        return;
+    }
+    toggleButton.addEventListener(
+        "click",
+        function () {
+            toggleSidebar(true);
+        },
+        {
+            passive: true
+        }
+    );
 }
-
-module.exports = {
-    init: init,
-    isOpen: isOpen,
-    toggle: toggleSidebar,
-    filter: filterSummary
-};
+export { isOpen, toggleSidebar };

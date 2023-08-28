@@ -1,43 +1,56 @@
 {
   "name": "gitbook-plugin-theme-unblocked",
-  "description": "Default theme for GitBook",
-  "main": "./index.js",
-  "version": "1.1.4",
-  "engines": {
-    "gitbook": ">=3.0.0"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "browserify": "13.1.0",
-    "eslint": "3.6.1",
-    "font-awesome": "4.6.3",
-    "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
-    "gitbook-logos": "git+https://github.com/GitbookIO/logos.git#2.0.2",
-    "gitbook-markdown-css": "1.0.1",
-    "jquery": "3.7.0",
-    "less": "2.7.1",
-    "less-plugin-clean-css": "1.5.1",
-    "mousetrap": "1.6.0",
-    "uglify-js": "2.7.3"
-  },
-  "scripts": {
-    "prepublish": "./src/build.sh"
+  "version": "1.1.5",
+  "description": "Default theme for HonKit",
+  "bugs": {
+    "url": "https://github.com/honkit/honkit/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NextChapterSoftware/gitbook-theme"
+    "url": "https://github.com/honkit/honkit.git"
   },
-  "author": "FriendCode Inc. <contact@gitbook.com>",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/GitbookIO/theme-unblocked/issues"
-  },
-  "contributors": [
-    {
-      "name": "Samy Pessé",
-      "email": "samy@gitbook.com"
-    }
+  "author": "azu <azuciao@gmail.com>",
+  "main": "./index.js",
+  "files": [
+    "index.js",
+    "_assets",
+    "_i18n",
+    "_layouts",
+    "!__tests__"
   ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm-run-all build:js build:css cp",
+    "build:css": "npm-run-all -p build:css:*",
+    "build:css:ebook": "lessc -clean-css src/less/ebook.less _assets/ebook/ebook.css",
+    "build:css:epub": "lessc -clean-css src/less/epub.less _assets/ebook/epub.css",
+    "build:css:mobi": "lessc -clean-css src/less/mobi.less _assets/ebook/mobi.css",
+    "build:css:pdf": "lessc -clean-css src/less/pdf.less _assets/ebook/pdf.css",
+    "build:css:website": "lessc -clean-css src/less/website.less _assets/website/style.css",
+    "build:js": "esbuild src/js/theme/index.js --bundle --minify --outfile=_assets/website/theme.js",
+    "clean": "rimraf _assets && mkdirp _assets/ebook/ _assets/website/ _assets/website/fonts _assets/website/images",
+    "cp": "npm-run-all -p cp:*",
+    "cp:favicon": "cpy --flat logo/favicon.ico _assets/website/images/",
+    "cp:logo": "cpy --flat logo/apple-touch-icon.png _assets/website/images/ --rename=apple-touch-icon-precomposed-152.png",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.13",
+    "cpy-cli": "^4.2.0",
+    "gitbook-markdown-css": "^1.1.0",
+    "less": "2.7.1",
+    "less-plugin-clean-css": "1.5.1",
+    "mkdirp": "^1.0.4",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "gitbook": ">=3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "gitbook": {
     "properties": {
       "styles": {
