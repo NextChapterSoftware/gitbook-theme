@@ -329,6 +329,14 @@ function handleNavigation(relativeUrl, push) {
                 $('.book').attr('class', bodyClass);
                 $('.book-summary').scrollTop(scrollPosition);
 
+                var targetSelector = $('#gitbook_page_info')
+                if (targetSelector.length > 0) {
+                    var targetJSON = JSON.parse(targetSelector.html());
+                    gitbook.push(function () {
+                        gitbook.page.hasChanged(targetJSON);
+                    });
+                }
+
                 // Update state
                 gitbook.state.$book = $('.book');
                 preparePage(!hash);
